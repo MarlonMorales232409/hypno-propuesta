@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hypno: Oportunidad de Transformación Digital</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0a0e27;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Holographic background effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(0, 162, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(31, 81, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(0, 255, 255, 0.05) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .slide {
+            min-height: 100vh;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .slide-content {
+            max-width: 1400px;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(0, 162, 255, 0.3);
+            border-radius: 24px;
+            padding: 2rem;
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                0 0 0 1px rgba(0, 162, 255, 0.1);
+            backdrop-filter: blur(20px);
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .slide-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00a2ff, #1f51ff, #00ffff, transparent);
+            border-radius: 24px 24px 0 0;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #00a2ff, #00ffff, #1f51ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            margin-bottom: 1rem;
+            letter-spacing: 3px;
+            text-shadow: 0 0 30px rgba(0, 162, 255, 0.5);
+        }
+
+        h2 {
+            font-size: clamp(1.8rem, 5vw, 2.8rem);
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 2rem;
+            text-align: center;
+            text-shadow: 0 0 20px rgba(0, 162, 255, 0.3);
+        }
+
+        h3 {
+            font-size: clamp(1.3rem, 4vw, 2rem);
+            font-weight: 600;
+            color: #00ffff;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+        }
+
+        .subtitle {
+            font-size: clamp(1rem, 3vw, 1.4rem);
+            color: #94a3b8;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(0, 162, 255, 0.15), rgba(31, 81, 255, 0.15));
+            border: 1px solid rgba(0, 162, 255, 0.3);
+            color: white;
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 
+                0 15px 35px rgba(0, 162, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transform: translateY(0);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(0, 255, 255, 0.6);
+            box-shadow: 
+                0 25px 50px rgba(0, 162, 255, 0.2),
+                0 0 50px rgba(0, 255, 255, 0.3);
+        }
+
+        .stat-card:hover::before {
+            left: 100%;
+        }
+
+        .stat-number {
+            font-size: clamp(2rem, 5vw, 2.8rem);
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #00ffff, #00a2ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+            opacity: 0.9;
+            color: #cbd5e1;
+        }
+
+        .chart-container {
+            position: relative;
+            height: clamp(300px, 50vw, 500px);
+            margin: 2rem 0;
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(0, 162, 255, 0.2);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 
+                0 15px 35px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: rgba(15, 23, 42, 0.7);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 162, 255, 0.2);
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, rgba(0, 162, 255, 0.3), rgba(31, 81, 255, 0.3));
+            color: #ffffff;
+            padding: 1.5rem 1rem;
+            font-weight: 600;
+            text-align: center;
+            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+            border-bottom: 1px solid rgba(0, 162, 255, 0.3);
+        }
+
+        .comparison-table td {
+            padding: 1.5rem 1rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(0, 162, 255, 0.1);
+            font-weight: 500;
+            font-size: clamp(0.8rem, 2.2vw, 1rem);
+            color: #e2e8f0;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: rgba(0, 162, 255, 0.05);
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, #00ffff, #00a2ff);
+            color: #0a0e27;
+            font-weight: 700;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: inline-block;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+        }
+
+        .timeline {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+            position: relative;
+        }
+
+        .timeline-item {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(0, 162, 255, 0.3);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 
+                0 15px 35px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item:hover {
+            border-color: rgba(0, 255, 255, 0.6);
+            transform: translateY(-5px);
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.4),
+                0 0 30px rgba(0, 255, 255, 0.2);
+        }
+
+        .timeline-month {
+            font-size: clamp(1.1rem, 3vw, 1.4rem);
+            font-weight: 700;
+            color: #00ffff;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+        }
+
+        .timeline-desc {
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            color: #cbd5e1;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, rgba(0, 162, 255, 0.2), rgba(31, 81, 255, 0.2));
+            border: 1px solid rgba(0, 162, 255, 0.4);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 24px;
+            text-align: center;
+            margin-top: 3rem;
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                0 0 50px rgba(0, 162, 255, 0.2);
+            position: relative;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00a2ff, #1f51ff, #00ffff, transparent);
+            border-radius: 24px 24px 0 0;
+        }
+
+        .cta-title {
+            font-size: clamp(2rem, 6vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #00ffff, #00a2ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cta-subtitle {
+            font-size: clamp(1.1rem, 3vw, 1.5rem);
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            color: #cbd5e1;
+        }
+
+        .investment-box {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            padding: 2rem;
+            border-radius: 20px;
+            margin: 2rem 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .price {
+            font-size: clamp(2.5rem, 7vw, 3.5rem);
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #00ffff, #00a2ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .price-desc {
+            font-size: clamp(1rem, 2.8vw, 1.2rem);
+            opacity: 0.9;
+            color: #cbd5e1;
+        }
+
+        .nav-buttons {
+            position: fixed;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(0, 162, 255, 0.5);
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #00ffff;
+            box-shadow: 
+                0 10px 25px rgba(0, 0, 0, 0.3),
+                0 0 20px rgba(0, 162, 255, 0.1);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            font-size: clamp(0.8rem, 2.2vw, 1rem);
+        }
+
+        .nav-btn:hover {
+            background: rgba(0, 162, 255, 0.2);
+            border-color: rgba(0, 255, 255, 0.8);
+            transform: translateY(-2px);
+            box-shadow: 
+                0 15px 35px rgba(0, 0, 0, 0.4),
+                0 0 30px rgba(0, 255, 255, 0.3);
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(0, 162, 255, 0.5);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            color: #00ffff;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            font-size: clamp(0.8rem, 2.2vw, 1rem);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .scenario-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .scenario-card {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(0, 162, 255, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 
+                0 15px 35px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scenario-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .scenario-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(0, 255, 255, 0.6);
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.4),
+                0 0 40px rgba(0, 255, 255, 0.2);
+        }
+
+        .scenario-card:hover::before {
+            left: 100%;
+        }
+
+        .scenario-percentage {
+            font-size: clamp(2.5rem, 6vw, 3.5rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #00ffff, #00a2ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .scenario-revenue {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+
+        .scenario-clients {
+            font-size: clamp(1rem, 2.8vw, 1.2rem);
+            color: #94a3b8;
+            margin-bottom: 1rem;
+        }
+
+        .scenario-roi {
+            background: linear-gradient(135deg, #00a2ff, #1f51ff);
+            color: white;
+            padding: 0.8rem;
+            border-radius: 15px;
+            font-weight: 700;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            box-shadow: 0 0 20px rgba(0, 162, 255, 0.3);
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            .slide {
+                padding: 0.5rem;
+            }
+            
+            .slide-content {
+                padding: 1.5rem;
+                margin-bottom: 5rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .scenario-cards {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .timeline {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .comparison-table {
+                font-size: 0.8rem;
+            }
+            
+            .comparison-table th,
+            .comparison-table td {
+                padding: 0.8rem 0.5rem;
+            }
+            
+            .nav-buttons {
+                bottom: 0.5rem;
+                gap: 0.5rem;
+            }
+            
+            .nav-btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.8rem;
+            }
+            
+            .investment-box {
+                padding: 1.5rem;
+            }
+            
+            .cta-section {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .slide-counter {
+                top: 0.5rem;
+                right: 0.5rem;
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+            }
+            
+            .chart-container {
+                height: 250px;
+                padding: 1rem;
+            }
+        }
+
+        /* Loading animation for charts */
+        .chart-loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            color: #00ffff;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Slide Counter -->
+    <div class="slide-counter">
+        <span id="currentSlide">1</span> / <span id="totalSlides">7</span>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="nav-buttons">
+        <button class="nav-btn" onclick="previousSlide()">← Anterior</button>
+        <button class="nav-btn" onclick="nextSlide()">Siguiente →</button>
+    </div>
+
+    <!-- Slide 1: Título -->
+    <div class="slide" id="slide1">
+        <div class="slide-content">
+            <h1>HYPNO</h1>
+            <p class="subtitle">Transformación Digital Holográfica</p>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">$5.4M</div>
+                    <div class="stat-label">Potencial Máximo Anual</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">3,600</div>
+                    <div class="stat-label">Clientes Potenciales/Año</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">13,300%</div>
+                    <div class="stat-label">ROI en 24 Meses</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">$15K</div>
+                    <div class="stat-label">Inversión Total</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 2: Situación Actual vs Oportunidad -->
+    <div class="slide hidden" id="slide2">
+        <div class="slide-content">
+            <h2>Situación Actual vs Oportunidad del Mercado</h2>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Métrica</th>
+                        <th>Actual</th>
+                        <th>Con 10% Penetración</th>
+                        <th>Multiplicador</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Facturación Anual</strong></td>
+                        <td>$30,000 USD</td>
+                        <td><span class="highlight">$1,080,000 USD</span></td>
+                        <td><span class="highlight">36x</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Proyectos Anuales</strong></td>
+                        <td>20 proyectos</td>
+                        <td><span class="highlight">720 proyectos</span></td>
+                        <td><span class="highlight">36x</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Clientes Mensuales</strong></td>
+                        <td>2 clientes</td>
+                        <td><span class="highlight">60 clientes</span></td>
+                        <td><span class="highlight">30x</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Dependencia</strong></td>
+                        <td>100% Networking</td>
+                        <td><span class="highlight">Sistema Automatizado</span></td>
+                        <td><span class="highlight">∞</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Slide 3: Escenarios de Penetración -->
+    <div class="slide hidden" id="slide3">
+        <div class="slide-content">
+            <h2>Escenarios de Penetración del Mercado</h2>
+            <div class="scenario-cards">
+                <div class="scenario-card">
+                    <div class="scenario-percentage">5%</div>
+                    <div class="scenario-revenue">$540K USD</div>
+                    <div class="scenario-clients">361 clientes/año</div>
+                    <div class="scenario-roi">ROI: 2,400%</div>
+                </div>
+                <div class="scenario-card">
+                    <div class="scenario-percentage">10%</div>
+                    <div class="scenario-revenue">$1.08M USD</div>
+                    <div class="scenario-clients">720 clientes/año</div>
+                    <div class="scenario-roi">ROI: 13,300%</div>
+                </div>
+                <div class="scenario-card">
+                    <div class="scenario-percentage">20%</div>
+                    <div class="scenario-revenue">$2.16M USD</div>
+                    <div class="scenario-clients">1,440 clientes/año</div>
+                    <div class="scenario-roi">ROI: 32,000%</div>
+                </div>
+                <div class="scenario-card">
+                    <div class="scenario-percentage">30%</div>
+                    <div class="scenario-revenue">$3.24M USD</div>
+                    <div class="scenario-clients">2,160 clientes/año</div>
+                    <div class="scenario-roi">ROI: 60,000%</div>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 2rem; font-size: clamp(1rem, 2.8vw, 1.2rem); color: #94a3b8;">
+                <strong style="color: #00ffff;">Precio promedio asumido:</strong> $1,500 USD por proyecto
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 4: Gráfico de Ingresos -->
+    <div class="slide hidden" id="slide4">
+        <div class="slide-content">
+            <h2>Proyección de Ingresos por Escenario</h2>
+            <div class="chart-container">
+                <div class="chart-loading" id="revenueLoading">Cargando gráfico...</div>
+                <canvas id="revenueChart" style="display: none;"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 5: Timeline de Implementación -->
+    <div class="slide hidden" id="slide5">
+        <div class="slide-content">
+            <h2>Timeline de Transformación (6 Meses)</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-month">Mes 1-2</div>
+                    <div class="timeline-desc">Research & Estrategia</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-month">Mes 3-4</div>
+                    <div class="timeline-desc">Desarrollo Core</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-month">Mes 5-6</div>
+                    <div class="timeline-desc">Testing & Entrega</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-month">Mes 7+</div>
+                    <div class="timeline-desc">Resultados Reales</div>
+                </div>
+            </div>
+            
+            <h3 style="margin-top: 3rem;">¿Qué Incluye la Transformación?</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Website Premium + Portfolio Interactivo</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">IA Conversacional Especializada</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">CRM + Automatización WhatsApp</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">SEO + Content Marketing</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 6: ROI Timeline -->
+    <div class="slide hidden" id="slide6">
+        <div class="slide-content">
+            <h2>Retorno de Inversión en el Tiempo</h2>
+            <div class="chart-container">
+                <div class="chart-loading" id="roiLoading">Cargando gráfico...</div>
+                <canvas id="roiChart" style="display: none;"></canvas>
+            </div>
+            <div style="text-align: center; margin-top: 2rem;">
+                <div style="background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(0, 255, 255, 0.3); padding: 2rem; border-radius: 20px; margin: 2rem 0;">
+                    <h3 style="color: #00ffff; margin-bottom: 1rem;">Escenario Conservador (10% Penetración)</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem;">
+                        <div>
+                            <div style="font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 800; color: #00a2ff;">$15K</div>
+                            <div style="color: #94a3b8; font-size: clamp(0.9rem, 2.5vw, 1rem);">Inversión Total</div>
+                        </div>
+                        <div>
+                            <div style="font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 800; color: #00a2ff;">Mes 7</div>
+                            <div style="color: #94a3b8; font-size: clamp(0.9rem, 2.5vw, 1rem);">Breakeven</div>
+                        </div>
+                        <div>
+                            <div style="font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 800; color: #00a2ff;">$2M+</div>
+                            <div style="color: #94a3b8; font-size: clamp(0.9rem, 2.5vw, 1rem);">Retorno 24 Meses</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 7: Call to Action -->
+    <div class="slide hidden" id="slide7">
+        <div class="slide-content">
+            <div class="cta-section">
+                <div class="cta-title">¿Estás Listo para la Transformación?</div>
+                <div class="cta-subtitle">De $30K anuales a $1-5M anuales en 24 meses</div>
+                
+                <div class="investment-box">
+                    <div class="price">$15,000 USD</div>
+                    <div class="price-desc">Inversión única • 6 meses implementación • 6 meses mantenimiento incluido</div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin: 2rem 0;">
+                    <div>
+                        <div style="font-size: clamp(1.2rem, 3.5vw, 1.8rem); font-weight: 700; margin-bottom: 0.5rem; color: #00ffff;">$5,250 USD</div>
+                        <div style="opacity: 0.9; color: #cbd5e1;">Pago Inicial (35%)</div>
+                    </div>
+                    <div>
+                        <div style="font-size: clamp(1.2rem, 3.5vw, 1.8rem); font-weight: 700; margin-bottom: 0.5rem; color: #00ffff;">$1,625 USD</div>
+                        <div style="opacity: 0.9; color: #cbd5e1;">6 Cuotas Mensuales</div>
+                    </div>
+                </div>
+
+                <div style="background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(0, 255, 255, 0.3); padding: 1.5rem; border-radius: 20px; margin-top: 2rem;">
+                    <div style="font-size: clamp(1.1rem, 3vw, 1.4rem); font-weight: 700; margin-bottom: 0.5rem; color: #00ffff;">
+                        Incluso con solo 5% de penetración:
+                    </div>
+                    <div style="font-size: clamp(1rem, 2.8vw, 1.2rem); color: #cbd5e1;">
+                        ROI de 2,400% • 18x tu facturación actual • 361 clientes anuales
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('totalSlides').textContent = totalSlides;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('hidden', i !== index);
+            });
+            document.getElementById('currentSlide').textContent = index + 1;
+        }
+
+        function nextSlide() {
+            currentSlideIndex = (currentSlideIndex + 1) % totalSlides;
+            showSlide(currentSlideIndex);
+            if (currentSlideIndex === 3) setTimeout(initRevenueChart, 300);
+            if (currentSlideIndex === 5) setTimeout(initROIChart, 300);
+        }
+
+        function previousSlide() {
+            currentSlideIndex = (currentSlideIndex - 1 + totalSlides) % totalSlides;
+            showSlide(currentSlideIndex);
+            if (currentSlideIndex === 3) setTimeout(initRevenueChart, 300);
+            if (currentSlideIndex === 5) setTimeout(initROIChart, 300);
+        }
+
+        // Touch navigation for mobile
+        let startX = 0;
+        let startY = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            if (!startX || !startY) return;
+            
+            const endX = e.changedTouches[0].clientX;
+            const endY = e.changedTouches[0].clientY;
+            
+            const diffX = startX - endX;
+            const diffY = startY - endY;
+            
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+                if (diffX > 0) {
+                    nextSlide();
+                } else {
+                    previousSlide();
+                }
+            }
+            
+            startX = 0;
+            startY = 0;
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                previousSlide();
+            }
+        });
+
+        function initRevenueChart() {
+            const loading = document.getElementById('revenueLoading');
+            const canvas = document.getElementById('revenueChart');
+            
+            loading.style.display = 'none';
+            canvas.style.display = 'block';
+            
+            const ctx = canvas.getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['5%', '10%', '20%', '30%', '50%'],
+                    datasets: [{
+                        label: 'Ingresos Anuales (USD)',
+                        data: [540000, 1080000, 2160000, 3240000, 5400000],
+                        backgroundColor: [
+                            'rgba(0, 162, 255, 0.8)',
+                            'rgba(0, 255, 255, 0.8)',
+                            'rgba(31, 81, 255, 0.8)',
+                            'rgba(0, 162, 255, 0.9)',
+                            'rgba(0, 255, 255, 0.9)'
+                        ],
+                        borderColor: [
+                            '#00a2ff',
+                            '#00ffff',
+                            '#1f51ff',
+                            '#00a2ff',
+                            '#00ffff'
+                        ],
+                        borderWidth: 2,
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                            titleColor: '#00ffff',
+                            bodyColor: '#ffffff',
+                            borderColor: '#00a2ff',
+                            borderWidth: 1,
+                            callbacks: {
+                                label: function(context) {
+                                    return '$' + context.parsed.y.toLocaleString() + ' USD';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                color: '#00ffff',
+                                font: {
+                                    weight: 'bold'
+                                }
+                            },
+                            grid: {
+                                color: 'rgba(0, 162, 255, 0.1)'
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                color: '#00ffff',
+                                callback: function(value) {
+                                    return '$' + (value / 1000000).toFixed(1) + 'M';
+                                }
+                            },
+                            grid: {
+                                color: 'rgba(0, 162, 255, 0.1)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function initROIChart() {
+            const loading = document.getElementById('roiLoading');
+            const canvas = document.getElementById('roiChart');
+            
+            loading.style.display = 'none';
+            canvas.style.display = 'block';
+            
+            const ctx = canvas.getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Mes 1', 'Mes 3', 'Mes 6', 'Mes 7', 'Mes 9', 'Mes 12', 'Mes 18', 'Mes 24'],
+                    datasets: [{
+                        label: 'Ingresos Mensuales (10% Penetración)',
+                        data: [2500, 2500, 7000, 30000, 45000, 62000, 80000, 100000],
+                        borderColor: '#00ffff',
+                        backgroundColor: 'rgba(0, 255, 255, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#00ffff',
+                        pointBorderColor: '#00a2ff',
+                        pointRadius: 6,
+                        pointHoverRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#00ffff'
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                            titleColor: '#00ffff',
+                            bodyColor: '#ffffff',
+                            borderColor: '#00a2ff',
+                            borderWidth: 1,
+                            callbacks: {
+                                label: function(context) {
+                                    return '$' + context.parsed.y.toLocaleString() + ' USD/mes';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                color: '#00ffff'
+                            },
+                            grid: {
+                                color: 'rgba(0, 162, 255, 0.1)'
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                color: '#00ffff',
+                                callback: function(value) {
+                                    return '$' + (value / 1000).toFixed(0) + 'K';
+                                }
+                            },
+                            grid: {
+                                color: 'rgba(0, 162, 255, 0.1)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize first slide
+        showSlide(0);
+    </script>
+</body>
+</html>
